@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>steps 步骤条、时间轴</title>
+    <link rel="stylesheet" href="http://www.fxss5201.cn/project/css/normalize.css">
+    <link rel="stylesheet" href="steps.css">
+    <style>
+        html {
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+        }
+        body {
+            font-family: "Helvetica Neue","Microsoft YaHei",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","WenQuanYi Micro Hei",sans-serif;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #333;
+            background-color: #fff;
+        }
+        .head {
+            text-align: center;
+            line-height: 50px;
+        }
+        .h2-title {
+            text-align: left;
+            line-height: 38px;
+            font-size: 1.1em;
+            font-weight: 700;
+        }
+        .h3-title {
+            line-height: 28px;
+        }
+        .margin-bottom-5 {
+            margin-bottom: 5px;
+        }
+        .site-title {
+            margin: 15px 0;
+        }
+        .paragraph {
+            margin-bottom: 8px;
+        }
+        .padding-left-20 {
+            padding-left: 20px;
+        }
+        .default-class {
+            color: #999;
+            border-color: #999;
+        }
+        .finish-class {
+            color: #409eff;
+            border-color: #409eff;
+        }
+        .finish-bg {
+            background-color: #409eff;
+        }
+    </style>
+</head>
+<body>
+    <!-- <h1 class="head">steps 步骤条、时间轴</h1> -->
+    <div id="steps1"></div>
+
+    <div class="steps steps-horizontal">
+        <div class="step default-class finish-class">
+            <div class="step-head">
+                <div class="step-line finish-bg"></div>
+                <div class="step-icon">
+                    <div class="step-icon-inner">1</div>
+                </div>
+            </div>
+            <div class="step-body">
+                <div class="step-title">步骤 1</div>
+                <div class="step-description">111</div>
+            </div>
+        </div>
+        <div class="step default-class finish-class">
+            <div class="step-head">
+                <div class="step-line"></div>
+                <div class="step-icon">
+                    <div class="step-icon-inner">2</div>
+                </div>
+            </div>
+            <div class="step-body">
+                <div class="step-title">步骤 2</div>
+                <div class="step-description">222</div>
+            </div>
+        </div>
+        <div class="step default-class">
+            <div class="step-head">
+                <div class="step-line"></div>
+                <div class="step-icon">
+                    <div class="step-icon-inner">3</div>
+                </div>
+            </div>
+            <div class="step-body">
+                <div class="step-title">步骤 3</div>
+                <div class="step-description">333</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="steps.js"></script>
+    <script>
+        var steps = steps({
+            el: "#steps1",
+            data: [
+                { title: "步骤1", description: "111" },
+                { title: "步骤2", description: "222" }
+            ],
+            center: true,
+            defaultClass: "default-class",
+            finishClass: "finish-class"
+        });
+    </script>
+</body>
+</html>
