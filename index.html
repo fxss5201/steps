@@ -59,57 +59,36 @@
 <body>
     <!-- <h1 class="head">steps 步骤条、时间轴</h1> -->
     <div id="steps1"></div>
-
-    <div class="steps steps-horizontal">
-        <div class="step default-class finish-class">
-            <div class="step-head">
-                <div class="step-line finish-bg"></div>
-                <div class="step-icon">
-                    <div class="step-icon-inner">1</div>
-                </div>
-            </div>
-            <div class="step-body">
-                <div class="step-title">步骤 1</div>
-                <div class="step-description">111</div>
-            </div>
-        </div>
-        <div class="step default-class finish-class">
-            <div class="step-head">
-                <div class="step-line"></div>
-                <div class="step-icon">
-                    <div class="step-icon-inner">2</div>
-                </div>
-            </div>
-            <div class="step-body">
-                <div class="step-title">步骤 2</div>
-                <div class="step-description">222</div>
-            </div>
-        </div>
-        <div class="step default-class">
-            <div class="step-head">
-                <div class="step-line"></div>
-                <div class="step-icon">
-                    <div class="step-icon-inner">3</div>
-                </div>
-            </div>
-            <div class="step-body">
-                <div class="step-title">步骤 3</div>
-                <div class="step-description">333</div>
-            </div>
-        </div>
-    </div>
+    <div id="steps2"></div>
+    <div id="steps3" style="height: 300px;"></div>
 
     <script src="steps.js"></script>
     <script>
-        var steps = steps({
+        var steps1 = steps({
             el: "#steps1",
             data: [
                 { title: "步骤1", description: "111" },
-                { title: "步骤2", description: "222" }
+                { title: "步骤2", description: "222" },
+                { title: "步骤3", description: "333" }
+            ]
+        });
+        var steps2 = steps({
+            el: "#steps2",
+            data: [
+                { title: "步骤1", description: "111" },
+                { title: "步骤2", description: "222" },
+                { title: "步骤3", description: "333" }
             ],
-            center: true,
-            defaultClass: "default-class",
-            finishClass: "finish-class"
+            center: true
+        });
+        var steps3 = steps({
+            el: "#steps3",
+            data: [
+                { title: "步骤1", description: "111" },
+                { title: "步骤2", description: "222" },
+                { title: "步骤3", description: "333" }
+            ],
+            direction: "vertical"
         });
     </script>
 </body>

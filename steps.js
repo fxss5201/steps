@@ -29,11 +29,14 @@
             var defined = {
                 el: "",
                 data: [],
+                space: null,
                 direction: "horizontal",
                 center: false,
                 active: 0,
-                defaultClass: "",
-                finishClass: "",
+                defaultClass: "step-default-class",
+                finishClass: "step-finish-class",
+                finishLine: true,
+                finishLineClass: "step-finish-line-bg",
                 customClass: ""
             };
             _this.defined = utils.extend(defined, options, true); //配置参数
@@ -45,8 +48,8 @@
                 alert("请传入'data'参数");
                 return false;
             }
+            _this.defined.dataLength = _this.defined.data.length;
             _this.render();
-            console.log(_this.getParentNode())
         },
         getBoxClass: function(){
             var _this = this,
@@ -64,28 +67,55 @@
             return boxClass;
         },
         getParentNode: function(){
-            var _this = this;
-            return document.querySelector(_this.defined.el);
+            var _this = this,
+                resultEl;
+            if (typeof _this.defined.el == "object"){ // 支持传入DOM对象
+                resultEl = _this.defined.el;
+            } else if (typeof _this.defined.el == "string"){
+                resultEl = document.querySelector(_this.defined.el);
+            }
+            return resultEl;
         },
         render: function(){
             var _this = this,
                 boxHtml = "",
                 parentNode = _this.getParentNode();
+            
             parentNode.className = parentNode.className + _this.defined.customClass;
             _this.defined.boxClass = _this.getBoxClass();
             boxHtml += '<div class="steps {{boxClass}}">'.replace("{{boxClass}}", _this.defined.boxClass);
             _this.defined.data.forEach(function(currentValue, index, array){
                 if(index <= _this.defined.active){
-                    boxHtml += '<div class="step {{stepClass}}">'.replace("{{stepClass}}", _this.defined.defaultClass + " " + _this.defined.finishClass);
+                    boxHtml += '<div class="step {{stepClass}}" style="{{stepStyle}}">'.replace("{{stepClass}}", _this.defined.defaultClass + " " + _this.defined.finishClass);
                 }else{
-                    boxHtml += '<div class="step {{stepClass}}">'.replace("{{stepClass}}", _this.defined.defaultClass);
+                    boxHtml += '<div class="step {{stepClass}}" style="{{stepStyle}}">'.replace("{{stepClass}}", _this.defined.defaultClass);
                 }
+                boxHtml = boxHtml.replace("{{stepStyle}}", _this.getStyle(index).join(""));
                 boxHtml += '<div class="step-head"><div class="step-line"></div><div class="step-icon"><div class="step-icon-inner">{{stepIcon}}</div></div></div>'.replace("{{stepIcon}}", index + 1);
                 boxHtml += '<div class="step-body"><div class="step-title">{{stepTitle}}</div><div class="step-description">{{stepDesc}}</div></div>'.replace("{{stepTitle}}", currentValue.title).replace("{{stepDesc}}", currentValue.description);
                 boxHtml += '</div>';
             });
             boxHtml += '</div>';
             parentNode.innerHTML = boxHtml;
+        },
+        getStyle: function (index) {
+            var _this = this,
+                style = [],
+                space = (typeof _this.defined.space === 'number'
+                    ? _this.defined.space + 'px'
+                    : _this.defined.space
+                        ? _this.defined.space
+                        : 100 / (_this.defined.dataLength - (_this.defined.center ? 0 : 1)) + '%');
+            style.push("flex-basis:" + space + ";");
+            if (_this.defined.direction == "vertical") return style;
+            if (!_this.defined.center && index == _this.defined.dataLength - 1) {
+                style.length = 0;
+                style.push("flex-basis: auto!important;");
+                style.push("flex-shrink: 0;");
+                style.push("flex-grow: 0;");
+                style.push("max-width:" + 100 / _this.defined.dataLength + "%;");
+            }
+            return style;
         },
         setActive: function(num){
             var _this = this;

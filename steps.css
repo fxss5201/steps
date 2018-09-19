@@ -14,14 +14,10 @@
 }
 .step {
     position: relative;
-    flex-basis: 50%;
     flex-shrink: 1;
 }
 .steps-vertical .step {
     display: flex;
-}
-.steps-center .step {
-    flex-basis: 33%;
 }
 .step-head {
     position: relative;
@@ -103,15 +99,18 @@
     line-height: 24px;
     font-weight: 400;
 }
-.steps-center:not('steps-vertical') .step-title,
-.steps-center:not('steps-vertical') .step-description {
-    
-}
-.steps:not('steps-center') .step:last-child {
-    flex-basis: auto!important;
-    flex-shrink: 0;
-    flex-grow: 0;
-}
 .steps .step:last-child .step-line {
     display: none;
+}
+
+.step-default-class {
+    color: #999;
+    border-color: #999;
+}
+.step-finish-class {
+    color: #409eff;
+    border-color: #409eff;
+}
+.step-finish-line-bg {
+    background-color: #409eff;
 }
