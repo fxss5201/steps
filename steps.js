@@ -33,9 +33,11 @@
                     description: "description", // 详情
                     status: "status", // 状态 0: "未完成"，1："已完成" 可选，如果未填写，则以"active"为准
                     sides: "sides", // 支持"single"="end-sigle"、"start-single"，可选，默认为"single"
-                    customHtml: "customHtml"
+                    customHtml: "customHtml",
+                    icon: "icon"
                 },
                 sides: "single", // 支持"single"="end-sigle"、"start-single"、"two-sides"
+                iconType: "number", // 支持"number"、"bullets"、"custom"
                 space: null,
                 direction: "horizontal",
                 center: false,
@@ -144,7 +146,22 @@
                             : "")));
                 stepBox = stepBox.replace("{{stepStyle}}", _this.getStepStyle(index).join(""));
                 
-                var stepHead = '<div class="step-head"><div class="step-line {{finishLineClass}}"></div><div class="step-icon"><div class="step-icon-inner">{{stepIcon}}</div></div></div>'.replace("{{stepIcon}}", index + 1);
+                var stepIconClass = "",
+                    stepIconInnerClass = "",
+                    stepIconInnerText = "";
+                if (_this.options.iconType.toLowerCase() == "number") {
+                    stepIconInnerClass = "step-icon-number";
+                    stepIconInnerText = index + 1;
+                } else if (_this.options.iconType.toLowerCase() == "bullets"){
+                    stepIconInnerClass = "step-icon-bullets";
+                } else if (_this.options.iconType.toLowerCase() == "custom") {
+                    stepIconClass = "step-icon-custom-box";
+                    stepIconInnerClass = "step-icon-custom";
+                    stepIconInnerText = currentValue[_this.options.props.icon] 
+                        ? currentValue[_this.options.props.icon]
+                        : index + 1;
+                }
+                var stepHead = '<div class="step-head"><div class="step-line {{finishLineClass}}"></div><div class="step-icon {{stepIconClass}}"><div class="{{stepIconInnerClass}}">{{stepIconInnerText}}</div></div></div>'.replace("{{stepIconClass}}", stepIconClass).replace("{{stepIconInnerClass}}", stepIconInnerClass).replace("{{stepIconInnerText}}", stepIconInnerText);
                 var stepStartBody = '<div class="step-body" style="{{bodyHidden}}">' + (currentValue[_this.options.props.customHtml] 
                     ? currentValue[_this.options.props.customHtml] 
                     : "") + '<div class="step-description">{{stepDesc}}</div><div class="step-title">{{stepTitle}}</div></div>'.replace("{{stepTitle}}", currentValue[_this.options.props.title]).replace("{{stepDesc}}", currentValue[_this.options.props.description]);

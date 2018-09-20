@@ -7,6 +7,7 @@
     <title>steps 步骤条、时间轴</title>
     <link rel="stylesheet" href="http://www.fxss5201.cn/project/css/normalize.css">
     <link rel="stylesheet" href="test-steps.css">
+    <script src="iconfont.js"></script>
     <style>
         html {
             -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -18,6 +19,13 @@
             color: #333;
             background-color: #fff;
         }
+        .icon {
+            width: 1em; height: 1em;
+            vertical-align: -0.15em;
+            fill: currentColor;
+            overflow: hidden;
+        }
+
         .head {
             text-align: center;
             line-height: 50px;
@@ -54,6 +62,17 @@
         .finish-bg {
             background-color: #409eff;
         }
+        body .custom-class .step-line  {
+            left: 19px;
+        }
+        .step-icon-custom-box {
+            width: 40px;
+            height: 40px;
+        }
+        .step-icon-custom {
+            margin-top: -2px;
+            font-size: 26px;
+        }
     </style>
 </head>
 <body>
@@ -62,6 +81,7 @@
     <div id="steps2"></div>
     <div id="steps3" style="height: 300px;"></div>
     <div id="steps4" style="height: 300px;"></div>
+    
     <script src="steps.js"></script>
     <script>
         var steps1 = steps({
@@ -82,16 +102,19 @@
                 { title: "步骤3", description: "333" }
             ],
             sides: "two-sides",
-            center: true
+            center: true,
+            iconType: "bullets"
         });
         var steps3 = steps({
             el: "#steps3",
             data: [
-                { title: "步骤1", description: "111" },
-                { title: "步骤2", description: "desc步骤2步骤2", status: 1 },
-                { title: "步骤3", description: "desc步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3" }
+                { title: "步骤1", description: "111", icon: '<svg class="icon" aria-hidden="true"><use xlink:href="#icon-wechat"></use></svg>' },
+                { title: "步骤2", description: "desc步骤2步骤2", status: 1, icon: '<svg class="icon" aria-hidden="true"><use xlink:href="#icon-alipay"></use></svg>' },
+                { title: "步骤3", description: "desc步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3", icon: '<svg class="icon" aria-hidden="true"><use xlink:href="#icon-QQ"></use></svg>' }
             ],
-            direction: "vertical"
+            direction: "vertical",
+            iconType: "custom",
+            customClass: "custom-class"
         });
         var steps4 = steps({
             el: "#steps4",

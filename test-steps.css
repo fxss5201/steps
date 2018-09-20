@@ -41,7 +41,6 @@
 }
 .steps-vertical .step-head {
     flex-grow: 0;
-    width: 24px;
 }
 .step-line {
     position: absolute;
@@ -79,13 +78,21 @@
     border: 2px solid;
     border-color: inherit;
 }
-.step-icon-inner {
+.step-icon-number {
     display: inline-block;
     user-select: none;
     text-align: center;
     font-weight: 700;
     line-height: 1;
     color: inherit;
+}
+.step-icon-bullets {
+    display: inline-block;
+    user-select: none;
+    width: 14px;
+    height: 14px;
+    background-color: currentColor;
+    border-radius: 50%;
 }
 .step-body {
     white-space: normal;
