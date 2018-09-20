@@ -13,7 +13,6 @@
             return o;
         }
     };
-    
     var steps = function(options) {
         return new _steps(options);    
     };
@@ -29,100 +28,224 @@
             var defined = {
                 el: "",
                 data: [],
+                props: { // 指定data中的key
+                    title: "title", // 标题
+                    description: "description", // 详情
+                    status: "status", // 状态 0: "未完成"，1："已完成" 可选，如果未填写，则以"active"为准
+                    sides: "sides", // 支持"single"="end-sigle"、"start-single"，可选，默认为"single"
+                    customHtml: "customHtml"
+                },
+                sides: "single", // 支持"single"="end-sigle"、"start-single"、"two-sides"
                 space: null,
                 direction: "horizontal",
                 center: false,
                 active: 0,
+                dataSetStatus: false,
                 defaultClass: "step-default-class",
                 finishClass: "step-finish-class",
                 finishLine: true,
                 finishLineClass: "step-finish-line-bg",
                 customClass: ""
             };
-            _this.defined = utils.extend(defined, options, true); //配置参数
-            if(!_this.defined.el){
+            _this.options = utils.extend(defined, options, true); // 配置参数
+            if(!_this.options.el){
                 alert("请传入'el'参数");
                 return false;
             }
-            if(!_this.defined.data || _this.defined.data.length == 0){
+            if(!_this.options.data || _this.options.data.length == 0){
                 alert("请传入'data'参数");
                 return false;
             }
-            _this.defined.dataLength = _this.defined.data.length;
+            _this.options.dataLength = _this.options.data.length;
             _this.render();
         },
-        getBoxClass: function(){
+        getBoxClass: function(){ // 最外层元素的class:"steps-horizontal","steps-center","steps-vertical"
             var _this = this,
                 boxClass = "";
-            if(_this.defined.direction == "horizontal"){
+            if(_this.options.direction.toLowerCase() == "horizontal"){
                 boxClass += "steps-horizontal";
-                if(_this.defined.center){
+                if(_this.options.center){
                     boxClass += " steps-center";
                 }
-            }else if(_this.defined.direction == "vertical"){
+            }else if(_this.options.direction.toLowerCase() == "vertical"){
                 boxClass += "steps-vertical";
             }else{
                 alert("参数'direction'错误");
             }
             return boxClass;
         },
-        getParentNode: function(){
+        getParentNode: function(){ // 通过参数el返回父元素
             var _this = this,
                 resultEl;
-            if (typeof _this.defined.el == "object"){ // 支持传入DOM对象
-                resultEl = _this.defined.el;
-            } else if (typeof _this.defined.el == "string"){
-                resultEl = document.querySelector(_this.defined.el);
+            if (typeof _this.options.el == "object"){ // 支持传入DOM对象
+                resultEl = _this.options.el;
+            } else if (typeof _this.options.el == "string"){
+                resultEl = document.querySelector(_this.options.el);
             }
             return resultEl;
         },
-        render: function(){
+        render: function(){ // 渲染样式
             var _this = this,
                 boxHtml = "",
                 parentNode = _this.getParentNode();
-            
-            parentNode.className = parentNode.className + _this.defined.customClass;
-            _this.defined.boxClass = _this.getBoxClass();
-            boxHtml += '<div class="steps {{boxClass}}">'.replace("{{boxClass}}", _this.defined.boxClass);
-            _this.defined.data.forEach(function(currentValue, index, array){
-                if(index <= _this.defined.active){
-                    boxHtml += '<div class="step {{stepClass}}" style="{{stepStyle}}">'.replace("{{stepClass}}", _this.defined.defaultClass + " " + _this.defined.finishClass);
-                }else{
-                    boxHtml += '<div class="step {{stepClass}}" style="{{stepStyle}}">'.replace("{{stepClass}}", _this.defined.defaultClass);
+            // 添加最外层的class样式
+            parentNode.className = parentNode.className + _this.options.customClass;
+            _this.options.boxClass = _this.getBoxClass();
+            boxHtml += '<div class="steps {{boxClass}}">'.replace("{{boxClass}}", _this.options.boxClass);
+
+            var stepsStartHtml = "",
+                stepsCentertHtml = "",
+                stepsEndtHtml = "",
+                stepsStartStyle = "",
+                stepsStartClass = "",
+                stepsCenterClass = "",
+                stepsEndStyle = "",
+                stepsEndClass = "";
+
+            // 根据参数sides决定哪边不显示
+            if(_this.options.sides.toLowerCase() == "single" || _this.options.sides.toLowerCase() == "end-sigle"){
+                stepsStartStyle += "display: none;";
+                if(_this.options.direction.toLowerCase() == "vertical"){
+                    stepsEndStyle += "flex-basis: 100%;";
                 }
-                boxHtml = boxHtml.replace("{{stepStyle}}", _this.getStyle(index).join(""));
-                boxHtml += '<div class="step-head"><div class="step-line"></div><div class="step-icon"><div class="step-icon-inner">{{stepIcon}}</div></div></div>'.replace("{{stepIcon}}", index + 1);
-                boxHtml += '<div class="step-body"><div class="step-title">{{stepTitle}}</div><div class="step-description">{{stepDesc}}</div></div>'.replace("{{stepTitle}}", currentValue.title).replace("{{stepDesc}}", currentValue.description);
-                boxHtml += '</div>';
+            }else if(_this.options.sides.toLowerCase() == "start-single"){
+                stepsEndStyle += "display: none;";
+                if(_this.options.direction.toLowerCase() == "vertical"){
+                    stepsStartStyle += "flex-basis: 100%;";
+                }
+            }
+            // 获取steps子元素的class
+            if(_this.options.direction.toLowerCase() == "horizontal"){
+                stepsStartClass = "steps-row steps-row-start";
+                stepsCenterClass = "steps-row steps-row-center";
+                stepsEndClass = "steps-row steps-row-end";
+            }else if(_this.options.direction.toLowerCase() == "vertical"){
+                stepsStartClass = "steps-column steps-column-start";
+                stepsCenterClass = "steps-column steps-column-center";
+                stepsEndClass = "steps-column steps-column-end";
+            }
+            
+            stepsStartHtml += (stepsStartStyle 
+                ? '<div class="' + stepsStartClass + '" style="{{stepsStartStyle}}">'.replace("{{stepsStartStyle}}", stepsStartStyle)
+                : '<div class="' + stepsStartClass + '">');
+            stepsCentertHtml += '<div class="' + stepsCenterClass + '">';
+            stepsEndtHtml += (stepsEndStyle
+                ? '<div class="' + stepsEndClass + '" style="{{stepsEndStyle}}">'.replace("{{stepsEndStyle}}", stepsEndStyle)
+                : '<div class="' + stepsEndClass + '">');
+            
+            _this.options.data.forEach(function(currentValue, index, array){
+                var stepBox;
+                (currentValue[_this.options.props.status] || currentValue[_this.options.props.status] == 0) && (_this.options.dataSetStatus = true);
+                stepBox = '<div class="step {{stepClass}}" style="{{stepStyle}}">{{stepHtml}}</div>'.replace("{{stepClass}}", _this.options.defaultClass + " " + 
+                    (currentValue[_this.options.props.status] 
+                        ? _this.options.finishClass 
+                        : ((!_this.options.dataSetStatus && index <= _this.options.active) 
+                            ? _this.options.finishClass 
+                            : "")));
+                stepBox = stepBox.replace("{{stepStyle}}", _this.getStepStyle(index).join(""));
+                
+                var stepHead = '<div class="step-head"><div class="step-line {{finishLineClass}}"></div><div class="step-icon"><div class="step-icon-inner">{{stepIcon}}</div></div></div>'.replace("{{stepIcon}}", index + 1);
+                var stepStartBody = '<div class="step-body" style="{{bodyHidden}}">' + (currentValue[_this.options.props.customHtml] 
+                    ? currentValue[_this.options.props.customHtml] 
+                    : "") + '<div class="step-description">{{stepDesc}}</div><div class="step-title">{{stepTitle}}</div></div>'.replace("{{stepTitle}}", currentValue[_this.options.props.title]).replace("{{stepDesc}}", currentValue[_this.options.props.description]);
+
+                var stepEndBody = ('<div class="step-body" style="{{bodyHidden}}"><div class="step-title">{{stepTitle}}</div><div class="step-description">{{stepDesc}}</div>' + (currentValue[_this.options.props.customHtml] 
+                    ? currentValue[_this.options.props.customHtml] 
+                    : "") + '</div>').replace("{{stepTitle}}", currentValue[_this.options.props.title]).replace("{{stepDesc}}", currentValue[_this.options.props.description]);
+
+                var bodyHidden = "visibility: hidden;max-height: 100%;";
+                var bodyCenterHidden = "visibility: hidden;height: 0;";
+
+                if(!currentValue[_this.options.props.sides] || currentValue[_this.options.props.sides] == "single" || currentValue[_this.options.props.sides] == "end-single"){
+                    stepsStartHtml += (index == (_this.options.dataLength - 1)
+                        ? stepBox.replace("{{stepHtml}}", (_this.options.direction == "horizontal" 
+                            ? stepStartBody.replace("{{bodyHidden}}", bodyHidden)
+                            : stepEndBody.replace("{{bodyHidden}}", bodyHidden))) 
+                        : stepBox.replace("{{stepHtml}}", ""));
+                    stepsEndtHtml += stepBox.replace("{{stepHtml}}", stepEndBody.replace("{{bodyHidden}}", ""));
+                }else if(currentValue[_this.options.props.sides] == "start-single"){
+                    stepsStartHtml += stepBox.replace("{{stepHtml}}", (_this.options.direction == "horizontal" 
+                        ? stepStartBody.replace("{{bodyHidden}}", "")
+                        : stepEndBody.replace("{{bodyHidden}}", "")));
+                    stepsEndtHtml += (index == (_this.options.dataLength - 1)
+                        ? stepBox.replace("{{stepHtml}}", stepEndBody.replace("{{bodyHidden}}", bodyHidden)) 
+                        : stepBox.replace("{{stepHtml}}", ""));
+                }
+                stepsCentertHtml += stepBox.replace("{{stepHtml}}", (_this.options.direction == "horizontal"
+                    ? stepHead + stepEndBody.replace("{{bodyHidden}}", bodyCenterHidden)
+                    : stepHead));
             });
-            boxHtml += '</div>';
-            parentNode.innerHTML = boxHtml;
+            stepsStartHtml += '</div>';
+            stepsCentertHtml += '</div>';
+            stepsEndtHtml += '</div>';
+            if(_this.options.dataSetStatus){
+                stepsCentertHtml = stepsCentertHtml.replace(/{{finishLineClass}}/g, "");
+            }else{
+                if(_this.options.finishLine){
+                    for(var i = 0,len = _this.options.dataLength; i < len; i++){
+                        if(i < _this.options.active){
+                            stepsCentertHtml = stepsCentertHtml.replace(/{{finishLineClass}}/, _this.options.finishLineClass);
+                        }else{
+                            stepsCentertHtml = stepsCentertHtml.replace(/{{finishLineClass}}/, "");
+                        }
+                    }
+                }else{
+                    stepsCentertHtml = stepsCentertHtml.replace(/{{finishLineClass}}/g, "");
+                }
+            }
+            parentNode.innerHTML = boxHtml + stepsStartHtml + stepsCentertHtml + stepsEndtHtml + '</div>';
+            _this.options.direction == "vertical" && _this.resetVerticalLine();
         },
-        getStyle: function (index) {
+        getStepStyle: function (index) { // 获取step的style
             var _this = this,
                 style = [],
-                space = (typeof _this.defined.space === 'number'
-                    ? _this.defined.space + 'px'
-                    : _this.defined.space
-                        ? _this.defined.space
-                        : 100 / (_this.defined.dataLength - (_this.defined.center ? 0 : 1)) + '%');
+                space = (typeof _this.options.space === 'number'
+                    ? _this.options.space + 'px'
+                    : _this.options.space
+                        ? _this.options.space
+                        : 100 / (_this.options.dataLength - (_this.options.center ? 0 : 1)) + '%');
             style.push("flex-basis:" + space + ";");
-            if (_this.defined.direction == "vertical") return style;
-            if (!_this.defined.center && index == _this.defined.dataLength - 1) {
+            if (_this.options.direction == "vertical") return style;
+            if (!_this.options.center && index == _this.options.dataLength - 1) {
                 style.length = 0;
                 style.push("flex-basis: auto!important;");
                 style.push("flex-shrink: 0;");
                 style.push("flex-grow: 0;");
-                style.push("max-width:" + 100 / _this.defined.dataLength + "%;");
+                style.push("max-width:" + 100 / _this.options.dataLength + "%;");
             }
             return style;
         },
-        setActive: function(num){
+        resetVerticalLine: function(){ // 重置纵向显示的line
+            var _this = this,
+                parentNode = _this.getParentNode(),
+                setHeight;
+            if(_this.options.sides == "start-single" || _this.options.sides == "two-sides"){
+                setHeight = window.getComputedStyle(parentNode.querySelector(".steps-column-start").querySelector(".step:last-child")).height;
+                parentNode.querySelector(".steps-column-center").querySelector(".step:last-child").style.flexBasis = setHeight;
+            }else if(_this.options.sides.toLowerCase() == "single" || _this.options.sides.toLowerCase() == "end-sigle"){
+                setHeight = window.getComputedStyle(parentNode.querySelector(".steps-column-end").querySelector(".step:last-child")).height;
+                parentNode.querySelector(".steps-column-center").querySelector(".step:last-child").style.flexBasis = setHeight;
+            }
+        },
+        setActive: function(num){ // 重置active，如果data数据中含有status，则该方法自动废除
             var _this = this;
-            _this.defined.active = num;
-            console.log(_this.defined)
+            if(_this.options.dataSetStatus){
+                alert("参数'data'中已设置'status',参数'active'已停用");
+            }else{
+                _this.options.active = num;
+                _this.render();
+                console.log(_this.options)
+            }
+        },
+        getActive: function(){ // 重置active，如果data数据中含有status，则该方法自动废除
+            var _this = this;
+            if(_this.options.dataSetStatus){
+                alert("参数'data'中已设置'status',参数'active'已停用");
+            }else{
+                console.log(_this.options)
+                return _this.options.active;
+            }
         }
-        
     }
 
     // 最后将插件对象暴露给全局对象

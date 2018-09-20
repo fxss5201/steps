@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>steps 步骤条、时间轴</title>
     <link rel="stylesheet" href="http://www.fxss5201.cn/project/css/normalize.css">
-    <link rel="stylesheet" href="steps.css">
+    <link rel="stylesheet" href="test-steps.css">
     <style>
         html {
             -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -61,34 +61,48 @@
     <div id="steps1"></div>
     <div id="steps2"></div>
     <div id="steps3" style="height: 300px;"></div>
-
+    <div id="steps4" style="height: 300px;"></div>
     <script src="steps.js"></script>
     <script>
         var steps1 = steps({
             el: "#steps1",
             data: [
-                { title: "步骤1", description: "111" },
-                { title: "步骤2", description: "222" },
-                { title: "步骤3", description: "333" }
-            ]
+                { title: "步骤1", description: "111", customHtml: '<div>123456789</div>'},
+                { title: "步骤2", description: "222", sides: "start-single", customHtml: '<div>123456789</div>' },
+                { title: "步骤3", description: "desc步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3", sides: "start-single" }
+            ],
+            sides: "two-sides",
+            active: 1
         });
         var steps2 = steps({
             el: "#steps2",
             data: [
                 { title: "步骤1", description: "111" },
-                { title: "步骤2", description: "222" },
+                { title: "步骤2", description: "222", sides: "start-single" },
                 { title: "步骤3", description: "333" }
             ],
+            sides: "two-sides",
             center: true
         });
         var steps3 = steps({
             el: "#steps3",
             data: [
                 { title: "步骤1", description: "111" },
-                { title: "步骤2", description: "222" },
-                { title: "步骤3", description: "333" }
+                { title: "步骤2", description: "desc步骤2步骤2", status: 1 },
+                { title: "步骤3", description: "desc步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3" }
             ],
             direction: "vertical"
+        });
+        var steps4 = steps({
+            el: "#steps4",
+            data: [
+                { title: "步骤1", description: "111", sides: "start-single" },
+                { title: "步骤2", description: "222", status: 0 },
+                { title: "步骤3", description: "333", sides: "start-single" }
+            ],
+            sides: "two-sides",
+            direction: "vertical",
+            active: 2
         });
     </script>
 </body>
