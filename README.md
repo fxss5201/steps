@@ -91,3 +91,32 @@ var steps1 = steps({
 |customHtml|String|`"customHtml"`|如果上述参数还满足不了需求，可以直接传html代码，用于指定data中的`key`|
 
 更多关于参数使用的例子请查看demo：<http://www.fxss5201.cn/project/plugin/steps/>
+
+## 方法 ##
+
+如果data数据中没有设置status参数，则提供以下的两个方法获取和设置当前的active:
+
+### setActive(number) ###
+
+```JavaScript
+steps1.setActive(2);
+```
+
+重置active，如果data数据中含有status，则该方法自动废除。
+number类型为Number，支持0~`data.length`
+
+### getActive() ###
+
+```JavaScript
+steps1.getActive();
+```
+
+获取active，如果data数据中含有status，则该方法自动废除，返回值为当前的active。
+
+### resetVerticalLine ###
+
+```JavaScript
+steps1.resetVerticalLine();
+```
+
+此方法仅在`direction==vertical`时有用，主要用于当页面或者此steps的父元素的大小发生改变时导致垂直的最后一个step的高度发生改变时，主轴线的最后一个step的高度需要和内容高度保持一致，所以每次大小改动时，为保持主轴线和内容的比例请执行此方法。

@@ -261,15 +261,13 @@
             }else{
                 _this.options.active = num;
                 _this.render();
-                console.log(_this.options)
             }
         },
-        getActive: function(){ // 重置active，如果data数据中含有status，则该方法自动废除
+        getActive: function(){ // 获取active，如果data数据中含有status，则该方法自动废除
             var _this = this;
             if(_this.options.dataSetStatus){
                 alert("参数'data'中已设置'status',参数'active'已停用");
             }else{
-                console.log(_this.options)
                 return _this.options.active;
             }
         }
