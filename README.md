@@ -11,6 +11,8 @@ steps.js是基于原生JavaScript的组件，可用于展示步骤条、时间�
  6. 如果标题和详情还不足以满足您的需求，你还可以插入自定义的html代码
  7. 如果样式不满意，可以加入自定义的父类class，然后根据css的权重重新定义样式
 
+demo地址：<http://www.fxss5201.cn/project/plugin/steps/>
+
 ## 资源 ##
 
 首先需要引入样式文件steps.css：
@@ -88,4 +90,4 @@ var steps1 = steps({
 |icon|String|`"icon"`|只有在`iconType == custom`时有效，也可以直接传html代码，用于指定data中的`key`|
 |customHtml|String|`"customHtml"`|如果上述参数还满足不了需求，可以直接传html代码，用于指定data中的`key`|
 
-更多关于参数使用的例子请查看index.html
+更多关于参数使用的例子请查看demo：<http://www.fxss5201.cn/project/plugin/steps/>
