@@ -16,7 +16,7 @@
     var steps = function(options) {
         return new _steps(options);    
     };
-    // 插件构造函数 - 返回数组结构
+    // 插件构造函数
     function _steps(options){
         this._initial(options);
     }
@@ -32,14 +32,14 @@
                     title: "title", // 标题
                     description: "description", // 详情
                     status: "status", // 状态 0: "未完成"，1："已完成" 可选，如果未填写，则以"active"为准
-                    sides: "sides", // 支持"single"="end-sigle"、"start-single"，可选，默认为"single"
-                    customHtml: "customHtml",
-                    icon: "icon"
+                    side: "side", // 支持"single"="end-sigle"、"start-single"，可选，默认为"single"
+                    icon: "icon", // 自定义图标，可以直接插入html代码
+                    customHtml: "customHtml"
                 },
-                sides: "single", // 支持"single"="end-sigle"、"start-single"、"two-sides"
-                iconType: "number", // 支持"number"、"bullets"、"custom"
                 space: null,
                 direction: "horizontal",
+                sides: "single", // 支持"single"="end-sigle"、"start-single"、"two-sides"
+                iconType: "number", // 支持"number"、"bullets"、"custom"
                 center: false,
                 active: 0,
                 dataSetStatus: false,
@@ -173,21 +173,31 @@
                 var bodyHidden = "visibility: hidden;max-height: 100%;";
                 var bodyCenterHidden = "visibility: hidden;height: 0;";
 
-                if(!currentValue[_this.options.props.sides] || currentValue[_this.options.props.sides] == "single" || currentValue[_this.options.props.sides] == "end-single"){
-                    stepsStartHtml += (index == (_this.options.dataLength - 1)
-                        ? stepBox.replace("{{stepHtml}}", (_this.options.direction == "horizontal" 
-                            ? stepStartBody.replace("{{bodyHidden}}", bodyHidden)
-                            : stepEndBody.replace("{{bodyHidden}}", bodyHidden))) 
-                        : stepBox.replace("{{stepHtml}}", ""));
-                    stepsEndtHtml += stepBox.replace("{{stepHtml}}", stepEndBody.replace("{{bodyHidden}}", ""));
-                }else if(currentValue[_this.options.props.sides] == "start-single"){
+                if(_this.options.sides.toLowerCase() == "start-single"){
                     stepsStartHtml += stepBox.replace("{{stepHtml}}", (_this.options.direction == "horizontal" 
                         ? stepStartBody.replace("{{bodyHidden}}", "")
-                        : stepEndBody.replace("{{bodyHidden}}", "")));
+                        : stepEndBody.replace("{{bodyHidden}}", ""))) ;
                     stepsEndtHtml += (index == (_this.options.dataLength - 1)
                         ? stepBox.replace("{{stepHtml}}", stepEndBody.replace("{{bodyHidden}}", bodyHidden)) 
                         : stepBox.replace("{{stepHtml}}", ""));
+                }else{
+                    if(!currentValue[_this.options.props.side] || currentValue[_this.options.props.side] == "single" || currentValue[_this.options.props.side] == "end-single"){
+                        stepsStartHtml += (index == (_this.options.dataLength - 1)
+                            ? stepBox.replace("{{stepHtml}}", (_this.options.direction == "horizontal" 
+                                ? stepStartBody.replace("{{bodyHidden}}", bodyHidden)
+                                : stepEndBody.replace("{{bodyHidden}}", bodyHidden))) 
+                            : stepBox.replace("{{stepHtml}}", ""));
+                        stepsEndtHtml += stepBox.replace("{{stepHtml}}", stepEndBody.replace("{{bodyHidden}}", ""));
+                    }else if(currentValue[_this.options.props.side] == "start-single"){
+                        stepsStartHtml += stepBox.replace("{{stepHtml}}", (_this.options.direction == "horizontal" 
+                            ? stepStartBody.replace("{{bodyHidden}}", "")
+                            : stepEndBody.replace("{{bodyHidden}}", "")));
+                        stepsEndtHtml += (index == (_this.options.dataLength - 1)
+                            ? stepBox.replace("{{stepHtml}}", stepEndBody.replace("{{bodyHidden}}", bodyHidden)) 
+                            : stepBox.replace("{{stepHtml}}", ""));
+                    }
                 }
+                
                 stepsCentertHtml += stepBox.replace("{{stepHtml}}", (_this.options.direction == "horizontal"
                     ? stepHead + stepEndBody.replace("{{bodyHidden}}", bodyCenterHidden)
                     : stepHead));
@@ -264,7 +274,6 @@
             }
         }
     }
-
     // 最后将插件对象暴露给全局对象
     _global = (function(){ return this || (0, eval)('this'); }());
     if (typeof module !== "undefined" && module.exports) {
