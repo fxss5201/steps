@@ -1,5 +1,11 @@
+/** 
+ * steps.js是基于原生JavaScript的组件，可用于展示步骤条、时间轴等。
+ * time：2018-09-22
+ * by 樊小书生: http://www.fxss5201.cn/
+ * github: https://github.com/fxss5201/steps
+ */
 ;(function(undefined) {
-    "use strict"
+    "use strict";
     var _global;
 
     // 工具函数
