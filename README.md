@@ -15,7 +15,7 @@ demo地址：<http://www.fxss5201.cn/project/plugin/steps/>
 
 ## 浏览器支持情况 ##
 由于布局中主要使用的是`flex`布局，所以支持IE10以上以及现代主流浏览器。
-
+建议使用前先在你所要用的浏览器上查看demo：<http://www.fxss5201.cn/project/plugin/steps/> 。
 ## 资源 ##
 
 首先需要引入样式文件steps.css：
