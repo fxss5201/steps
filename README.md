@@ -13,6 +13,9 @@ steps.js是基于原生JavaScript的组件，可用于展示步骤条、时间�
 
 demo地址：<http://www.fxss5201.cn/project/plugin/steps/>
 
+## 浏览器支持情况 ##
+由于布局中主要使用的是`flex`布局，所以支持IE10以上以及现代主流浏览器。
+
 ## 资源 ##
 
 首先需要引入样式文件steps.css：
