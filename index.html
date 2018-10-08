@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>steps 步骤条、时间轴 | 樊小书生的博客</title>
+    <meta name="keywords" content="樊小书生的博客,steps 步骤条、时间轴">
+    <meta name="description" content="樊小书生的博客专注于web前端学习的分享">
+    <link rel="stylesheet" href="http://www.fxss5201.cn/project/css/normalize.css">
+    <link rel="stylesheet" href="http://www.fxss5201.cn/project/layui/css/layui.css">
+    <link rel="stylesheet" href="http://www.fxss5201.cn/project/css/hybrid.css">
+    <link rel="stylesheet" href="steps.css">
+    <script src="iconfont.js"></script>
+    <style>
+        html {
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+        }
+        body {
+            font-family: "Helvetica Neue","Microsoft YaHei",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","WenQuanYi Micro Hei",sans-serif;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #333;
+            background-color: #fff;
+        }
+        .icon {
+            width: 1em; height: 1em;
+            vertical-align: -0.15em;
+            fill: currentColor;
+            overflow: hidden;
+        }
+        .head {
+            text-align: center;
+            line-height: 80px;
+        }
+        .h2-title {
+            text-align: left;
+            line-height: 38px;
+            font-size: 1.1em;
+            font-weight: 700;
+        }
+        .h3-title {
+            line-height: 28px;
+        }
+        .margin-bottom-5 {
+            margin-bottom: 5px;
+        }
+        .site-title {
+            margin: 15px 0;
+        }
+        .paragraph {
+            margin-bottom: 8px;
+        }
+        .padding-left-20 {
+            padding-left: 20px;
+        }
+        
+        body .custom-class .steps-vertical .step-line  {
+            left: 19px;
+        }
+        body .custom-class .steps-horizontal .step-line  {
+            top: 19px;
+        }
+        .step-icon-custom-box {
+            width: 40px;
+            height: 40px;
+        }
+        .step-icon-custom {
+            margin-top: -2px;
+            font-size: 26px;
+        }
+    </style>
+    <script src="http://www.fxss5201.cn/project/js/highlight.pack.js"></script>
+    <script src="steps.js"></script>
+</head>
+<body>
+    <div class="layui-container">
+        <h1 class="head">steps 步骤条、时间轴</h1>
+        <hr>
+        <h2 class="h2-title">1.介绍</h2>
+        <p class="paragraph padding-left-20">steps.js是基于原生JavaScript的组件，可用于展示步骤条、时间轴等，功能支持：</p>
+        <div class="padding-left-20">
+            <p class="paragraph padding-left-20">1.自适应</p>
+            <p class="paragraph padding-left-20">2.支持横向和纵向显示，并且横向还支持居中显示</p>
+            <p class="paragraph padding-left-20">3.支持自定义间距</p>
+            <p class="paragraph padding-left-20">4.主轴线上下左右单方向及多方向分布</p>
+            <p class="paragraph padding-left-20">5.支持数字和圆点及自定义图标，也可以使用图片</p>
+            <p class="paragraph padding-left-20">6.如果标题和详情还不足以满足您的需求，你还可以插入自定义的html代码</p>
+            <p class="paragraph padding-left-20">7.如果样式不满意，可以加入自定义的父类class，然后根据css的权重重新定义样式</p>
+        </div>
+        <h2 class="h2-title">2、资源</h2>
+        <div class="paragraph padding-left-20">
+            <h3 class="h3-title">（1）、首先需要引入样式文件steps.css：</h3>
+            <pre class="margin-bottom-5"><code class="html">&lt;link rel="stylesheet" href="steps.css"&gt;</code></pre>
+            <h3 class="h3-title">（2）、接下来引入steps.js：</h3>
+            <pre class="margin-bottom-5"><code class="html">&lt;script src="steps.js"&gt;&lt;/script&gt;</code></pre>
+        </div>
+        <h2 class="h2-title">3、使用</h2>
+        <div class="paragraph padding-left-20">
+            <h3 class="h3-title">（1）、在使用的时候，需要一个容器，例如：</h3>
+            <pre class="margin-bottom-5"><code class="html">&lt;div id="steps1"&gt;&lt;/div&gt;</code></pre>
+            <h3 class="h3-title">（2）、然后在 JavaScript 中进行初始化：</h3>
+            <pre class="margin-bottom-5"><code class="javascript">var steps1 = steps({
+    el: "#steps1",
+    data: [
+        { title: "步骤1", description: "111", sides: "two-side"},
+        { title: "步骤2", description: "222", sides: "start-single" },
+        { title: "步骤3", description: "desc步骤3步骤3" }
+    ],
+    sides: "two-sides",
+    active: 1
+});</code></pre>
+            <h3 class="h3-title">（3）、实际效果如下：</h3>
+            <div id="steps1"></div>
+            <script>
+                var steps1 = steps({
+                    el: "#steps1",
+                    data: [
+                        { title: "步骤1", description: "111"},
+                        { title: "步骤2", description: "222", sides: "start-single" },
+                        { title: "步骤3", description: "desc步骤3步骤3" }
+                    ],
+                    sides: "two-sides",
+                    active: 1
+                });
+            </script>
+        </div>
+        <h2 class="h2-title">4、参数</h2>
+        <div class="paragraph padding-left-20">参数详情请直接查看README.md文件。</div>
+        <h2 class="h2-title">5、例子</h2>
+        <div class="paragraph padding-left-20">
+            <h3 class="h3-title">（1）、</h3>
+            <div class="paragraph padding-left-20">
+                <div id="steps2"></div>
+                <script>
+                       
+                </script>
+                <pre class="margin-bottom-5"><code class="html">&lt;div id="steps2"&gt;&lt;/div&gt;</code></pre>
+                <pre class="margin-bottom-5"><code class="javascript">var steps1 = steps({
+    el: "#steps2",
+    data: [
+        { title: "步骤1", description: "111" },
+        { title: "步骤2", description: "222" },
+        { title: "步骤3", description: "333" }
+    ],
+    space: 100
+});</code></pre>
+            </div>
+        </div>
+        <div style="margin: 20px 0 10px;">关于前端知识，你可以进入我的博客查看更多知识：
+            <a target="_blank" href="http://www.fxss5201.cn/" style="color: #1e9fff">樊小书生的博客</a>。
+        </div>
+        <p class="copyright" style="margin-bottom: 50px;">
+            Copyright © 2018
+            <a href="http://www.fxss5201.cn/" target="_blank" title="樊小书生" style="color: #1e9fff">樊小书生</a>
+            <a href="http://www.miitbeian.gov.cn">晋ICP备17012454号</a>
+        </p>
+    </div>
+    <script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>
