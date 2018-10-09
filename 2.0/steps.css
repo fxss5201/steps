@@ -6,31 +6,16 @@
  * github: https://github.com/fxss5201/steps
  */
  .steps {
+    display: flex;
     padding: 10px;
     box-sizing: border-box;
-}
-.steps-row {
-    display: flex;
-    flex-wrap: nowrap
-}
-.steps-column {
-    flex-basis: 50%;
-    flex-flow: column;
-    display: inline-flex;
-}
-.steps-horizontal .steps-row-start {
-    align-items: flex-end;
-}
-.steps-column-center {
-    flex-basis: auto!important;
-    flex-shrink: 0;
-    flex-grow: 0;
 }
 .steps-horizontal {
     white-space: nowrap;
 }
 .steps-vertical {
     display: flex;
+    flex-direction: column;
     height: 100%;
 }
 .steps-center {
@@ -40,15 +25,23 @@
     position: relative;
     flex-shrink: 1;
 }
+.steps-horizontal .step {
+    display: flex;
+    flex-direction: column;
+}
 .steps-vertical .step {
     display: flex;
 }
-.step-head {
+.step-line-box {
     position: relative;
     width: 100%;
+    margin-bottom: 10px;
 }
-.steps-vertical .step-head {
+.steps-vertical .step-line-box {
     flex-grow: 0;
+    width: auto;
+    margin-right: 10px;
+    margin-bottom: 0;
 }
 .step-line {
     position: absolute;
@@ -102,44 +95,34 @@
     background-color: currentColor;
     border-radius: 50%;
 }
-.step-body {
-    white-space: normal;
-    text-align: left;
-}
-.steps-vertical .step-body {
-    padding-left: 10px;    
-    flex-grow: 1;
-}
-.steps-center .step-body {
-    box-sizing: border-box;
-    padding: 0 10px;
-    text-align: center;
-}
-.steps-column-center .step-body {
-    visibility: hidden;
-    width: 0;
-}
-.steps-column-center .step-body {
-    padding: 0;
-}
 .step-title {
+    white-space: pre-line;
     padding-right: 10%;
     font-size: 16px;
-    line-height: 38px;
+    margin-bottom: 10px;
 }
 .steps-vertical .step-title {
+    text-align: right;  
     line-height: 24px;
-    padding-bottom: 8px;
+    padding: 0 0 8px 0;
+    margin: 0 10px 0 0;
 }
 .step-description {
+    white-space: pre-line;
     padding-right: 10%;
-    margin-top: -5px;
     font-size: 12px;
     line-height: 22px;
     font-weight: 400;
+    margin: -5px 0 10px 0;
 }
-.steps-row-start .step-description {
-    margin-bottom: -5px;
+.steps-horizontal .step:last-child .step-title,
+.steps-horizontal .step:last-child .step-description {
+    padding-right: 0;
+}
+.steps-vertical .step-description {
+    line-height: 20px;
+    padding: 0 0 8px 0;
+    margin: 0 10px 0 0;
 }
 .steps-center .step-title,
 .steps-center .step-description {
@@ -148,25 +131,7 @@
 .steps .step:last-child .step-line {
     display: none;
 }
-.steps-row .step:last-child .step-title,
-.steps-row .step:last-child .step-description {
-    padding-right: 0;
-}
-.steps-column-start .step-title,
-.steps-column-start .step-description {
-    text-align: right;
-    padding-right: 10px;
-    padding-left: 10%; 
-}
-.steps-vertical .steps-column:not(.steps-column-center) .step:last-child {
-    flex-basis: auto!important;
-    flex-shrink: 0;
-    flex-grow: 0;
-}
-.steps-vertical .steps-column-center .step:last-child {
-    flex-shrink: 0;
-    flex-grow: 0;
-}
+
 .step-default-class {
     color: #999;
     border-color: #999;

@@ -83,7 +83,7 @@
             <p class="paragraph padding-left-20">1. 自适应</p>
             <p class="paragraph padding-left-20">2. 支持横向和纵向显示，并且横向还支持居中显示</p>
             <p class="paragraph padding-left-20">3. 支持自定义间距</p>
-            <p class="paragraph padding-left-20">4. 主轴线上下左右单方向及多方向分布</p>
+            <p class="paragraph padding-left-20">4. 线、标题、描述、自定义等可自由排序</p>
             <p class="paragraph padding-left-20">5. 支持数字和圆点及自定义图标，也可以使用图片</p>
             <p class="paragraph padding-left-20">6. 如果标题和详情还不足以满足您的需求，你还可以插入自定义的html代码</p>
             <p class="paragraph padding-left-20">7. 如果样式不满意，可以加入自定义的父类class，然后根据css的权重重新定义样式</p>
@@ -103,12 +103,12 @@
             <pre class="margin-bottom-5"><code class="javascript">var steps1 = steps({
     el: "#steps1",
     data: [
-        { title: "步骤1", description: "111"},
-        { title: "步骤2", description: "222", sides: "start-single" },
+        { title: "步骤1", description: "111" },
+        { title: "步骤2", description: "222" },
         { title: "步骤3", description: "desc步骤3步骤3" }
     ],
-    sides: "two-sides",
-    active: 1
+    active: 1,
+    dataOrder: ["title", "line", "description"]
 });</code></pre>
             <h3 class="h3-title">（3）、实际效果如下：</h3>
             <div id="steps1"></div>
@@ -116,12 +116,12 @@
                 var steps1 = steps({
                     el: "#steps1",
                     data: [
-                        { title: "步骤1", description: "111"},
-                        { title: "步骤2", description: "222", sides: "start-single" },
+                        { title: "步骤1", description: "111" },
+                        { title: "步骤2", description: "222" },
                         { title: "步骤3", description: "desc步骤3步骤3" }
                     ],
-                    sides: "two-sides",
-                    active: 1
+                    active: 1,
+                    dataOrder: ["title", "line", "description"]
                 });
             </script>
         </div>
@@ -141,10 +141,10 @@
                             { title: "步骤3", description: "333" }
                         ],
                         space: 100
-                    });    
+                    });
                 </script>
                 <pre class="margin-bottom-5"><code class="html">&lt;div id="steps2"&gt;&lt;/div&gt;</code></pre>
-                <pre class="margin-bottom-5"><code class="javascript">var steps1 = steps({
+                <pre class="margin-bottom-5"><code class="javascript">var steps2 = steps({
     el: "#steps2",
     data: [
         { title: "步骤1", description: "111" },
@@ -155,7 +155,7 @@
 });</code></pre>
             </div>
 
-            <h3 class="h3-title">（2）、center: true;居中显示</h3>
+            <h3 class="h3-title">（2）、center: true;</h3>
             <div class="paragraph padding-left-20">
                 <div id="steps3"></div>
                 <script>
@@ -167,7 +167,7 @@
                             { title: "步骤3", description: "333" }
                         ],
                         center: true
-                    });    
+                    });
                 </script>
                 <pre class="margin-bottom-5"><code class="html">&lt;div id="steps3"&gt;&lt;/div&gt;</code></pre>
                 <pre class="margin-bottom-5"><code class="javascript">var steps3 = steps({
@@ -182,8 +182,8 @@
             </div>
 
             <h3 class="h3-title">（3）、direction: "vertical";在使用direction: "vertical"的时候，可以在父元素上指定填充的高度，如果未指定，则以内容填充。</h3>
+            <h3 class="h3-title">未指定高度：</h3>
             <div class="paragraph padding-left-20">
-                <div>未指定高度：</div>
                 <div id="steps4"></div>
                 <script>
                     var steps4 = steps({
@@ -194,7 +194,7 @@
                             { title: "步骤3", description: "333" }
                         ],
                         direction: "vertical"
-                    });    
+                    });
                 </script>
                 <pre class="margin-bottom-5"><code class="html">&lt;div id="steps4"&gt;&lt;/div&gt;</code></pre>
                 <pre class="margin-bottom-5"><code class="javascript">var steps4 = steps({
@@ -207,9 +207,9 @@
     direction: "vertical"
 });</code></pre>
             </div>
+            <h3 class="h3-title">指定高度为：150px;</h3>
             <div class="paragraph padding-left-20">
-                <div>指定高度为：300px;</div>
-                <div id="steps5" style="height: 300px;"></div>
+                <div id="steps5" style="height: 150px;"></div>
                 <script>
                     var steps5 = steps({
                         el: "#steps5",
@@ -220,9 +220,9 @@
                         ],
                         direction: "vertical",
                         active: 1
-                    });    
+                    });
                 </script>
-                <pre class="margin-bottom-5"><code class="html">&lt;div id="steps5" style="height: 300px;"&gt;&lt;/div&gt;</code></pre>
+                <pre class="margin-bottom-5"><code class="html">&lt;div id="steps5" style="height: 150px;"&gt;&lt;/div&gt;</code></pre>
                 <pre class="margin-bottom-5"><code class="javascript">var steps5 = steps({
     el: "#steps5",
     data: [
@@ -234,7 +234,7 @@
     active: 1
 });</code></pre>
             </div>
-
+            
             <h3 class="h3-title">（4）、active：1;设置当前活动项</h3>
             <div class="paragraph padding-left-20">
                 <div id="steps6"></div>
@@ -247,7 +247,7 @@
                             { title: "步骤3", description: "333" }
                         ],
                         active: 1
-                    });    
+                    });
                 </script>
                 <pre class="margin-bottom-5"><code class="html">&lt;div id="steps6"&gt;&lt;/div&gt;</code></pre>
                 <pre class="margin-bottom-5"><code class="javascript">var steps6 = steps({
@@ -260,7 +260,7 @@
     active: 1
 });</code></pre>
             </div>
-
+            
             <h3 class="h3-title">（5）、finishLine：false;关闭线条颜色</h3>
             <div class="paragraph padding-left-20">
                 <div id="steps7"></div>
@@ -274,7 +274,7 @@
                         ],
                         active: 1,
                         finishLine: false
-                    });    
+                    });
                 </script>
                 <pre class="margin-bottom-5"><code class="html">&lt;div id="steps7"&gt;&lt;/div&gt;</code></pre>
                 <pre class="margin-bottom-5"><code class="javascript">var steps7 = steps({
@@ -288,8 +288,8 @@
     finishLine: false
 });</code></pre>
             </div>
-
-            <h3 class="h3-title">（5）、sides："start-single";将内容渲染到开始的这一边</h3>
+            
+            <h3 class="h3-title">（6）、dataOrder：["title", "line", "description"];调整显示顺序</h3>
             <div class="paragraph padding-left-20">
                 <div id="steps8"></div>
                 <script>
@@ -300,8 +300,8 @@
                             { title: "步骤2", description: "222" },
                             { title: "步骤3", description: "333" }
                         ],
-                        sides: "start-single"
-                    });    
+                        dataOrder: ["title", "line", "description"]
+                    });
                 </script>
                 <pre class="margin-bottom-5"><code class="html">&lt;div id="steps8"&gt;&lt;/div&gt;</code></pre>
                 <pre class="margin-bottom-5"><code class="javascript">var steps8 = steps({
@@ -311,11 +311,11 @@
         { title: "步骤2", description: "222" },
         { title: "步骤3", description: "333" }
     ],
-    sides: "start-single"
+    dataOrder: ["title", "line", "description"]
 });</code></pre>
             </div>
             <div class="paragraph padding-left-20">
-                <div id="steps9"></div>
+                <div id="steps9" style="height: 150px"></div>
                 <script>
                     var steps9 = steps({
                         el: "#steps9",
@@ -325,10 +325,10 @@
                             { title: "步骤3", description: "333" }
                         ],
                         direction: "vertical",
-                        sides: "start-single"
-                    });    
+                        dataOrder: ["title", "line", "description"]
+                    });
                 </script>
-                <pre class="margin-bottom-5"><code class="html">&lt;div id="steps9"&gt;&lt;/div&gt;</code></pre>
+                <pre class="margin-bottom-5"><code class="html">&lt;div id="steps9" style="height: 150px"&gt;&lt;/div&gt;</code></pre>
                 <pre class="margin-bottom-5"><code class="javascript">var steps9 = steps({
     el: "#steps9",
     data: [
@@ -337,13 +337,13 @@
         { title: "步骤3", description: "333" }
     ],
     direction: "vertical",
-    sides: "start-single"
+    dataOrder: ["title", "line", "description"]
 });</code></pre>
             </div>
 
-            <h3 class="h3-title">（6）、iconType："bullets";主轴线icon设置为圆点</h3>
+            <h3 class="h3-title">（7）、dataWidth：["100px", "auto", "auto"];此属性仅在direction="vertical"时有效，按照 dataOrder 的显示顺序设置每个的默认宽度</h3>
             <div class="paragraph padding-left-20">
-                <div id="steps10"></div>
+                <div id="steps10" style="height: 150px"></div>
                 <script>
                     var steps10 = steps({
                         el: "#steps10",
@@ -352,11 +352,12 @@
                             { title: "步骤2", description: "222" },
                             { title: "步骤3", description: "333" }
                         ],
-                        center: true,
-                        iconType: "bullets"
-                    });    
+                        direction: "vertical",
+                        dataOrder: ["title", "line", "description"],
+                        dataWidth: ["100px", "auto", "auto"]
+                    });
                 </script>
-                <pre class="margin-bottom-5"><code class="html">&lt;div id="steps10"&gt;&lt;/div&gt;</code></pre>
+                <pre class="margin-bottom-5"><code class="html">&lt;div id="steps10" style="height: 150px"&gt;&lt;/div&gt;</code></pre>
                 <pre class="margin-bottom-5"><code class="javascript">var steps10 = steps({
     el: "#steps10",
     data: [
@@ -364,12 +365,15 @@
         { title: "步骤2", description: "222" },
         { title: "步骤3", description: "333" }
     ],
-    center: true,
-    iconType: "bullets"
+    direction: "vertical",
+    dataOrder: ["title", "line", "description"],
+    dataWidth: ["100px", "auto", "auto"]
 });</code></pre>
             </div>
+
+            <h3 class="h3-title">（8）、iconType："bullets";主轴线icon设置为圆点</h3>
             <div class="paragraph padding-left-20">
-                <div id="steps11"></div>
+                <div id="steps11" style="height: 150px"></div>
                 <script>
                     var steps11 = steps({
                         el: "#steps11",
@@ -379,10 +383,12 @@
                             { title: "步骤3", description: "333" }
                         ],
                         direction: "vertical",
+                        dataOrder: ["title", "line", "description"],
+                        dataWidth: ["100px", "auto", "auto"],
                         iconType: "bullets"
-                    });    
+                    });
                 </script>
-                <pre class="margin-bottom-5"><code class="html">&lt;div id="steps11"&gt;&lt;/div&gt;</code></pre>
+                <pre class="margin-bottom-5"><code class="html">&lt;div id="steps11" style="height: 150px"&gt;&lt;/div&gt;</code></pre>
                 <pre class="margin-bottom-5"><code class="javascript">var steps11 = steps({
     el: "#steps11",
     data: [
@@ -391,11 +397,13 @@
         { title: "步骤3", description: "333" }
     ],
     direction: "vertical",
+    dataOrder: ["title", "line", "description"],
+    dataWidth: ["100px", "auto", "auto"],
     iconType: "bullets"
 });</code></pre>
             </div>
-            
-            <h3 class="h3-title">（7）、props：暂时由于extend对象合并函数不完善，所以需要将需要用到的参数全部重新设置，哪怕是默认值</h3>
+
+            <h3 class="h3-title">（9）、props：暂时由于extend对象合并函数不完善，所以需要将需要用到的参数全部重新设置，哪怕是默认值</h3>
             <div class="paragraph padding-left-20">
                 <div id="steps12"></div>
                 <script>
@@ -409,10 +417,8 @@
                         props: {
                             title: "name",
                             description: "description"
-                        },
-                        center: true,
-                        iconType: "bullets"
-                    });    
+                        }
+                    });
                 </script>
                 <pre class="margin-bottom-5"><code class="html">&lt;div id="steps12"&gt;&lt;/div&gt;</code></pre>
                 <pre class="margin-bottom-5"><code class="javascript">var steps12 = steps({
@@ -425,13 +431,11 @@
     props: {
         title: "name",
         description: "description"
-    },
-    center: true,
-    iconType: "bullets"
+    }
 });</code></pre>
             </div>
-            
-            <h3 class="h3-title">（8）、data.status 在data中设置每一个的完成状态，此时设置active无效</h3>
+
+            <h3 class="h3-title">（10）、data.status 在data中设置每一个的完成状态，此时设置active无效</h3>
             <div class="paragraph padding-left-20">
                 <div id="steps13"></div>
                 <script>
@@ -445,7 +449,7 @@
                         center: true,
                         active: 1,
                         iconType: "bullets"
-                    });    
+                    });
                 </script>
                 <pre class="margin-bottom-5"><code class="html">&lt;div id="steps13"&gt;&lt;/div&gt;</code></pre>
                 <pre class="margin-bottom-5"><code class="javascript">var steps13 = steps({
@@ -461,131 +465,21 @@
 });</code></pre>
             </div>
 
-            <h3 class="h3-title">（9）、data.side 在data中设置每一个在主轴线的哪方显示，外层的sides需要设置为"two-sides"</h3>
+            <h3 class="h3-title">（11）、data.icon 主轴线的icon自定义，外层的iconType需要设置为"custom"，如果外层的iconType设置为"custom"，但是data没有传icon值的话依然以默认参数Number</h3>
             <div class="paragraph padding-left-20">
                 <div id="steps14"></div>
                 <script>
                     var steps14 = steps({
                         el: "#steps14",
                         data: [
-                            { title: "步骤1", description: "111", status: 1 },
-                            { title: "步骤2", description: "222", side: "start-single" },
-                            { title: "步骤3", description: "333", status: 1 }
-                        ],
-                        center: true,
-                        active: 1,
-                        iconType: "bullets",
-                        sides: "two-sides"
-                    });    
-                </script>
-                <pre class="margin-bottom-5"><code class="html">&lt;div id="steps14"&gt;&lt;/div&gt;</code></pre>
-                <pre class="margin-bottom-5"><code class="javascript">var steps14 = steps({
-    el: "#steps14",
-    data: [
-        { title: "步骤1", description: "111", status: 1 },
-        { title: "步骤2", description: "222", side: "start-single" },
-        { title: "步骤3", description: "333", status: 1 }
-    ],
-    center: true,
-    active: 1,
-    iconType: "bullets",
-    sides: "two-sides"
-});</code></pre>
-            </div>
-            <div class="paragraph padding-left-20">
-                <div id="steps15" style="height: 200px;"></div>
-                <script>
-                    var steps15 = steps({
-                        el: "#steps15",
-                        data: [
-                            { title: "步骤1", description: "111", status: 1 },
-                            { title: "步骤2", description: "222", side: "start-single" },
-                            { title: "步骤3", description: "333" }
-                        ],
-                        direction: "vertical",
-                        center: true,
-                        active: 1,
-                        iconType: "bullets",
-                        sides: "two-sides"
-                    });    
-                </script>
-                <pre class="margin-bottom-5"><code class="html">&lt;div id="steps15"&gt;&lt;/div&gt;</code></pre>
-                <pre class="margin-bottom-5"><code class="javascript">var steps15 = steps({
-    el: "#steps15",
-    data: [
-        { title: "步骤1", description: "111", status: 1 },
-        { title: "步骤2", description: "222", side: "start-single" },
-        { title: "步骤3", description: "333" }
-    ],
-    direction: "vertical",
-    center: true,
-    active: 1,
-    iconType: "bullets",
-    sides: "two-sides"
-});</code></pre>
-            </div>
-            
-            <h3 class="h3-title">（10）、data.icon 主轴线的icon自定义，外层的iconType需要设置为"custom"，如果外层的iconType设置为"custom"，但是data没有传icon值的话依然以默认参数Number</h3>
-            <div class="paragraph padding-left-20">
-                <div id="steps16"></div>
-                <script>
-                    var steps16 = steps({
-                        el: "#steps16",
-                        data: [
-                            { title: "步骤1", description: "111", status: 1 },
-                            { title: "步骤2", description: "222", side: "start-single" },
-                            { title: "步骤3", description: "333", status: 1 }
-                        ],
-                        center: true,
-                        active: 1,
-                        iconType: "custom",
-                        sides: "two-sides",
-                        customClass: "custom-class"
-                    });    
-                </script>
-                <pre class="margin-bottom-5"><code class="style">body .custom-class .steps-horizontal .step-line  {
-    top: 19px;
-}
-.step-icon-custom-box {
-    width: 40px;
-    height: 40px;
-}
-.step-icon-custom {
-    margin-top: -2px;
-    font-size: 26px;
-}</code></pre>
-                <pre class="margin-bottom-5"><code class="html">&lt;div id="steps16"&gt;&lt;/div&gt;</code></pre>
-                <pre class="margin-bottom-5"><code class="javascript">var steps16 = steps({
-    el: "#steps16",
-    data: [
-        { title: "步骤1", description: "111", status: 1 },
-        { title: "步骤2", description: "222", side: "start-single" },
-        { title: "步骤3", description: "333", status: 1 }
-    ],
-    center: true,
-    active: 1,
-    iconType: "custom",
-    sides: "two-sides",
-    customClass: "custom-class"
-});</code></pre>
-            </div>
-            <div class="paragraph padding-left-20">
-                <div id="steps17" style="height: 260px;"></div>
-                <script>
-                    var steps17 = steps({
-                        el: "#steps17",
-                        data: [
                             { title: "步骤1", description: "111", icon: '<svg class="icon" aria-hidden="true"><use xlink:href="#icon-wechat"></use></svg>' },
-                            { title: "步骤2", description: "desc步骤2步骤2", status: 1, icon: '<svg class="icon" aria-hidden="true"><use xlink:href="#icon-alipay"></use></svg>' },
+                            { title: "步骤2", description: "desc步骤2步骤2", icon: '<svg class="icon" aria-hidden="true"><use xlink:href="#icon-alipay"></use></svg>' },
                             { title: "步骤3", description: "desc步骤3步骤3", icon: '<svg class="icon" aria-hidden="true"><use xlink:href="#icon-QQ"></use></svg>' }
                         ],
-                        direction: "vertical",
-                        center: true,
                         active: 1,
                         iconType: "custom",
-                        sides: "two-sides",
                         customClass: "custom-class"
-                    });    
+                    });
                 </script>
                 <pre class="margin-bottom-5"><code class="style">body .custom-class .steps-vertical .step-line  {
     top: 19px;
@@ -598,200 +492,46 @@
     margin-top: -2px;
     font-size: 26px;
 }</code></pre>
-                <pre class="margin-bottom-5"><code class="html">&lt;div id="steps17"&gt;&lt;/div&gt;</code></pre>
-                <pre class="margin-bottom-5"><code class="javascript">var steps17 = steps({
-    el: "#steps17",
+                <pre class="margin-bottom-5"><code class="html">&lt;div id="steps14"&gt;&lt;/div&gt;</code></pre>
+                <pre class="margin-bottom-5"><code class="javascript">var steps14 = steps({
+    el: "#steps14",
     data: [
         { title: "步骤1", description: "111", icon: '&lt;svg class="icon" aria-hidden="true"&gt;&lt;use xlink:href="#icon-wechat"&gt;&lt;/use&gt;&lt;/svg&gt;' },
-        { title: "步骤2", description: "desc步骤2步骤2", status: 1, icon: '&lt;svg class="icon" aria-hidden="true"&gt;&lt;use xlink:href="#icon-alipay"&gt;&lt;/use&gt;&lt;/svg&gt;' },
+        { title: "步骤2", description: "desc步骤2步骤2", icon: '&lt;svg class="icon" aria-hidden="true"&gt;&lt;use xlink:href="#icon-alipay"&gt;&lt;/use&gt;&lt;/svg&gt;' },
         { title: "步骤3", description: "desc步骤3步骤3", icon: '&lt;svg class="icon" aria-hidden="true"&gt;&lt;use xlink:href="#icon-QQ"&gt;&lt;/use&gt;&lt;/svg&gt;' }
     ],
-    direction: "vertical",
-    center: true,
     active: 1,
     iconType: "custom",
-    sides: "two-sides",
     customClass: "custom-class"
 });</code></pre>
             </div>
 
-            <h3 class="h3-title">（11）、data.customHtml 在data中设置每一个的自定义内容</h3>
+            <h3 class="h3-title">（12）、data.customHtml 在data中设置每一个的自定义内容</h3>
             <div class="paragraph padding-left-20">
-                <div id="steps18"></div>
+                <div id="steps15"></div>
                 <script>
-                    var steps18 = steps({
-                        el: "#steps18",
+                    var steps15 = steps({
+                        el: "#steps15",
                         data: [
                             { title: "步骤1", description: "111" },
-                            { title: "步骤2", description: "222", customHtml: "<div>我是2的自定义内容</div>" },
-                            { title: "步骤3", description: "333" }
+                            { title: "步骤2", description: "desc步骤2步骤2", customHtml: '<div style="order: 3;">我是2的自定义内容</div>' },
+                            { title: "步骤3", description: "desc步骤3步骤3" }
                         ],
-                        center: true,
-                        active: 1,
-                        iconType: "bullets"
-                    });    
+                        active: 1
+                    });
                 </script>
-                <pre class="margin-bottom-5"><code class="html">&lt;div id="steps18"&gt;&lt;/div&gt;</code></pre>
-                <pre class="margin-bottom-5"><code class="javascript">var steps18 = steps({
-    el: "#steps18",
+                <pre class="margin-bottom-5"><code class="html">&lt;div id="steps15"&gt;&lt;/div&gt;</code></pre>
+                <pre class="margin-bottom-5"><code class="javascript">var steps15 = steps({
+    el: "#steps15",
     data: [
         { title: "步骤1", description: "111" },
-        { title: "步骤2", description: "222", customHtml: "<div>我是2的自定义内容</div>" },
-        { title: "步骤3", description: "333" }
+        { title: "步骤2", description: "desc步骤2步骤2", customHtml: '&lt;div style="order: 3;"&gt;我是2的自定义内容&lt;/div&gt;' },
+        { title: "步骤3", description: "desc步骤3步骤3" }
     ],
-    center: true,
-    active: 1,
-    iconType: "bullets"
+    active: 1
 });</code></pre>
             </div>
 
-            <h3 class="h3-title">（12）、customClass: "beautify" 自定义样式</h3>
-            <div class="paragraph padding-left-20">
-                <style>
-                    .beautify .step-icon-custom-box {
-                        width: 50px;
-                        height: 50px;
-                    }
-                    .beautify .step-line {
-                        left: 24px;
-                    }
-                    .beautify .step-icon-custom,
-                    .beautify-icon {
-                        display: block;
-                        width: 100%;
-                        height: 100%;
-                        margin: 0;
-                        border-radius: 50%;
-                    }
-                    .beautify-icon1 {
-                        background: #ddd url(xiaoming.jpg) center no-repeat no-repeat;
-                        background-size: 50px 50px;
-                    }
-                    .beautify-icon2 {
-                        background: #ddd url(xiaohong.jpg) center no-repeat no-repeat;
-                        background-size: 50px 50px;
-                    }
-                    .beautify .steps-column .step-body {
-                        padding: 0;
-                        margin: 0 10px;
-                        flex-basis: auto;
-                        flex-shrink: 0;
-                        flex-grow: 0;
-                        max-width: 100%;
-                    }
-                    .beautify .steps-column-start .step {
-                        flex-direction: row-reverse;
-                    }
-                    .beautify .step-title,
-                    .beautify .step-description {
-                        padding: 10px 10px 6px;
-                    }
-                    .beautify .step-title {
-                        border-radius: 8px 8px 0 0;
-                    }
-                    .beautify .step-description {
-                        padding-top: 0;
-                        border-radius: 0 0 8px 8px;
-                    }
-                    .beautify .steps-column-start .step-title,
-                    .beautify .steps-column-start .step-description {
-                        color: #fff;
-                        background: #fdb336;
-                    }
-                    .beautify .steps-column-end .step-title,
-                    .beautify .steps-column-end .step-description {
-                        color: #fff;
-                        background: #2196F3;
-                    }
-                </style>
-                <div id="steps19" style="height: 400px;"></div>
-                <script>
-                    var steps19 = steps({
-                        el: "#steps19",
-                        data: [
-                            { title: "小明", description: "明天就中秋了，想不想一起出去玩呢？", icon: "<i class='beautify-icon beautify-icon1'></i>" },
-                            { title: "小红", description: "我考虑考虑", icon: "<i class='beautify-icon beautify-icon2'></i>", side: "start-single" },
-                            { title: "小明", description: "这么好的天气，不出去转转，在家里都发霉了，明天去......", icon: "<i class='beautify-icon beautify-icon1'></i>" },
-                            { title: "小红", description: "好的", icon: "<i class='beautify-icon beautify-icon2'></i>", side: "start-single" }
-                        ],
-                        direction: "vertical",
-                        sides: "two-sides",
-                        active: 3,
-                        iconType: "custom",
-                        customClass: "beautify"
-                    });    
-                </script>
-                <pre class="margin-bottom-5"><code class="html">&lt;div id="steps19"&gt;&lt;/div&gt;</code></pre>
-                <pre class="margin-bottom-5"><code class="javascript">var steps19 = steps({
-    el: "#steps19",
-    data: [
-        { title: "小明", description: "明天就中秋了，想不想一起出去玩呢？", icon: "&lt;i class='beautify-icon beautify-icon1'&gt;&lt;/i&gt;" },
-        { title: "小红", description: "我考虑考虑", icon: "&lt;i class='beautify-icon beautify-icon2'&gt;&lt;/i&gt;", side: "start-single" },
-        { title: "小明", description: "这么好的天气，不出去转转，在家里都发霉了，明天去......", icon: "&lt;i class='beautify-icon beautify-icon1'&gt;&lt;/i&gt;" },
-        { title: "小红", description: "好的", icon: "&lt;i class='beautify-icon beautify-icon2'&gt;&lt;/i&gt;", side: "start-single" }
-    ],
-    direction: "vertical",
-    sides: "two-sides",
-    active: 3,
-    iconType: "custom",
-    customClass: "beautify"
-});</code></pre>
-                <pre class="margin-bottom-5"><code class="style">.beautify .step-icon-custom-box {
-    width: 50px;
-    height: 50px;
-}
-.beautify .step-line {
-    left: 24px;
-}
-.beautify .step-icon-custom,
-.beautify-icon {
-    display: block;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    border-radius: 50%;
-}
-.beautify-icon1 {
-    background: #ddd url(xiaoming.jpg) center no-repeat no-repeat;
-    background-size: 50px 50px;
-}
-.beautify-icon2 {
-    background: #ddd url(xiaohong.jpg) center no-repeat no-repeat;
-    background-size: 50px 50px;
-}
-.beautify .steps-column .step-body {
-    padding: 0;
-    margin: 0 10px;
-    flex-basis: auto;
-    flex-shrink: 0;
-    flex-grow: 0;
-    max-width: 100%;
-}
-.beautify .steps-column-start .step {
-    flex-direction: row-reverse;
-}
-.beautify .step-title,
-.beautify .step-description {
-    padding: 10px 10px 6px;
-}
-.beautify .step-title {
-    border-radius: 8px 8px 0 0;
-}
-.beautify .step-description {
-    padding-top: 0;
-    border-radius: 0 0 8px 8px;
-}
-.beautify .steps-column-start .step-title,
-.beautify .steps-column-start .step-description {
-    color: #fff;
-    background: #fdb336;
-}
-.beautify .steps-column-end .step-title,
-.beautify .steps-column-end .step-description {
-    color: #fff;
-    background: #2196F3;
-}</code></pre>
-            </div>
         </div>
         <div style="margin: 20px 0 10px;">关于前端知识，你可以进入我的博客查看更多知识：
             <a target="_blank" href="http://www.fxss5201.cn/" style="color: #1e9fff">樊小书生的博客</a>。

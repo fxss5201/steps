@@ -2,20 +2,23 @@
 
 ## 介绍 ##
 
-暂时请使用目录中1.0文件夹内的稳定版本，现开发的2.0非1.0的升级版，仅是两者的方向不一致，1.0主打双边显示，2.0主打内容排序。
+1.0 文件夹和 2.0 文件夹**非升级关系**，两者仅是着重点方向不一致，1.0 主打双边显示，2.0 主打内容排序，一般功能的话两者均可满足。
 
 steps.js是基于原生JavaScript的组件，可用于展示步骤条、时间轴等，功能支持：
  1. 自适应
  2. 支持横向和纵向显示，并且横向还支持居中显示
  3. 支持自定义间距
- 4. 主轴线上下左右单方向及多方向分布
+ 4. 主轴线上下左右单方向及多方向分布（1.0） / 线、标题、描述、自定义等可自由排序（2.0）
  5. 支持数字和圆点及自定义图标，也可以使用图片
  6. 如果标题和详情还不足以满足您的需求，你还可以插入自定义的html代码
  7. 如果样式不满意，可以加入自定义的父类class，然后根据css的权重重新定义样式
 
-demo地址：<http://www.fxss5201.cn/project/plugin/steps/>
+demo地址：
+ * [1.0 双边显示](http://www.fxss5201.cn/project/plugin/steps/1.0/)
+ * [2.0 内容排序](http://www.fxss5201.cn/project/plugin/steps/2.0/)
 
 ## 浏览器支持情况 ##
+<https://caniuse.com/#search=flex>，
 由于布局中主要使用的是`flex`布局，所以支持IE10以上以及现代主流浏览器。
 建议使用前先在你所要用的浏览器上查看demo：<http://www.fxss5201.cn/project/plugin/steps/> 。
 ## 资源 ##
@@ -46,82 +49,14 @@ demo地址：<http://www.fxss5201.cn/project/plugin/steps/>
 var steps1 = steps({
     el: "#steps1",
     data: [
-        { title: "步骤1", description: "111"},
-        { title: "步骤2", description: "222", sides: "start-single" },
-        { title: "步骤3", description: "desc步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3步骤3" }
+        { title: "步骤1", description: "111" },
+        { title: "步骤2", description: "222" },
+        { title: "步骤3", description: "desc步骤3步骤3" }
     ],
-    sides: "two-sides",
     active: 1
 });
 ```
 
 ## 参数 ##
-
-|参数名|类型|默认值|描述|
-|----|----|----|----|
-|el|String|`""`|需要将steps渲染在何处，建议使用id，可以保证唯一性|
-|data|Array|`[]`|渲染的数据|
-|props|Object|`title: "title", description: "description", status: "status", side: "side", customHtml: "customHtml"`|后面会详细描述|
-|space|Number|`null`|两个之间的间距，默认是自适应|
-|direction|String|`"horizontal"`|steps是横向还是纵向|
-|sides|String|`"single"`|step渲染在line的哪边，支持`"single"="end-sigle"`、`"start-single"`、`"two-sides"`|
-|iconType|String|`"number"`|主轴线上的icon显示类型，支持`"number"`、`"bullets"`、`"custom"`|
-|center|Boolean|`false`|steps是否居中显示，仅在`direction==horizontal`时生效|
-|active|Number|`0`|当前活动项，仅在data中未指定`status`时生效，否则自动废除|
-|defaultClass|String|`"step-default-class"`|会在每个step上添加此class类名，方便自定义样式|
-|finishClass|String|`"step-finish-class"`|会在每个step完成时添加此class类名，方便自定义样式|
-|finishLine|Boolean|`true`|是否开启线条颜色的变更，在完成的时候线条会相应变色，仅在active有效时有效，也就是说在data中设置`status`参数时，将失效|
-|finishLineClass|String|`"step-finish-line-bg"`|会在每个step完成时在之前的线条上添加此class类名，方便自定义样式|
-|customClass|String|`""`|会在最外层元素上添加此class类名，方便自定义样式|
-
-### data参数说明： ###
-
-|参数名|类型|描述|
-|----|----|----|
-|title|String|标题|
-|description|String|描述|
-|status|Number|状态，0表示未完成，1表示已完成，可选|
-|side|String|在主轴线方向哪边显示，支持`"single"="end-sigle"`、`"start-single"`，可选，默认为`"single"`|
-|icon|String|只有在`iconType == custom`时有效，也可以直接传html代码|
-|customHtml|String|如果上述参数还满足不了需求，可以直接传html代码|
-
-### props参数说明 ###
-|参数名|类型|默认值|描述|
-|----|----|----|----|
-|title|String|`"title"`|标题，用于指定data中的`key`|
-|description|String|`"description"`|描述，用于指定data中的`key`|
-|status|Number|`"status"`|状态，0表示未完成，1表示已完成，可选，用于指定data中的`key`|
-|side|String|`"side"`|在主轴线方向哪边显示，支持`"single"="end-sigle"`、`"start-single"`，可选，默认为`"single"`，用于指定data中的`key`|
-|icon|String|`"icon"`|只有在`iconType == custom`时有效，也可以直接传html代码，用于指定data中的`key`|
-|customHtml|String|`"customHtml"`|如果上述参数还满足不了需求，可以直接传html代码，用于指定data中的`key`|
-
-更多关于参数使用的例子请查看demo：<http://www.fxss5201.cn/project/plugin/steps/>
-
-## 方法 ##
-
-如果data数据中没有设置status参数，则提供以下的两个方法获取和设置当前的active:
-
-### setActive(number) ###
-
-```JavaScript
-steps1.setActive(2);
-```
-
-重置active，如果data数据中含有status，则该方法自动废除。
-number类型为Number，支持0~`data.length`
-
-### getActive() ###
-
-```JavaScript
-steps1.getActive();
-```
-
-获取active，如果data数据中含有status，则该方法自动废除，返回值为当前的active。
-
-### resetVerticalLine ###
-
-```JavaScript
-steps1.resetVerticalLine();
-```
-
-此方法仅在`direction==vertical`时有用，主要用于当页面或者此steps的父元素的大小发生改变时导致垂直的最后一个step的高度发生改变时，主轴线的最后一个step的高度需要和内容高度保持一致，所以每次大小改动时，为保持主轴线和内容的比例请执行此方法。
+ * [1.0 双边显示](https://github.com/fxss5201/steps/wiki/1.0-%E7%89%88%E6%9C%ACAPI)
+ * [2.0 内容排序](https://github.com/fxss5201/steps/wiki/2.0%E7%89%88%E6%9C%ACAPI)
