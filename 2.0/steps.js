@@ -11,15 +11,45 @@
 
     // 工具函数
     var utils = {
-        extend: function (o,n,override) { // 对象合并
-            for(var key in n){
-                if(n.hasOwnProperty(key) && (!o.hasOwnProperty(key) || override)){
-                    o[key]=n[key];
+        extend: (function () { // 对象合并，并深拷贝
+            var isObjFunc = function (name) {
+                var toString = Object.prototype.toString;
+                return function () {
+                    return toString.call(arguments[0]) === '[object ' + name + ']';
                 }
             }
-            return o;
-        }
+            var isObject = isObjFunc('Object'),
+                isArray = isObjFunc('Array'),
+                isBoolean = isObjFunc('Boolean');
+            return function extend() {
+                var index = 0, isDeep = false, obj, copy, destination, source, i;
+                if (isBoolean(arguments[0])) {
+                    index = 1;
+                    isDeep = arguments[0];
+                }
+                for (i = arguments.length - 1; i > index; i--) {
+                    destination = arguments[i - 1];
+                    source = arguments[i];
+                    if (isObject(source) || isArray(source)) {
+                        for (var property in source) {
+                            obj = source[property];
+                            if (isDeep && (isObject(obj) || isArray(obj))) {
+                                copy = isObject(obj) ? {} : [];
+                                var extended = extend(isDeep, copy, obj);
+                                destination[property] = extended;
+                            } else {
+                                destination[property] = source[property];
+                            }
+                        }
+                    } else {
+                        destination = source;
+                    }
+                }
+                return destination;
+            }
+        })()
     };
+
     var steps = function(options) {
         return new _steps(options);    
     };
@@ -56,7 +86,7 @@
                 finishLineClass: "step-finish-line-bg",
                 customClass: ""
             };
-            _this.options = utils.extend(defined, options, true); // 配置参数
+            _this.options = utils.extend(true, defined, options); // 配置参数
             if(!_this.options.el){
                 alert("请传入'el'参数");
                 return false;
@@ -71,13 +101,14 @@
         getBoxClass: function(){ // 最外层元素的class:"steps-horizontal","steps-center","steps-vertical"
             var _this = this,
                 options = _this.options,
+                direction = options.direction.toLowerCase(),
                 boxClass = "";
-            if(options.direction.toLowerCase() == "horizontal"){
+            if(direction == "horizontal"){
                 boxClass += "steps-horizontal";
                 if(options.center){
                     boxClass += " steps-center";
                 }
-            }else if(options.direction.toLowerCase() == "vertical"){
+            }else if(direction == "vertical"){
                 boxClass += "steps-vertical";
             }else{
                 alert("参数'direction'错误");
@@ -88,9 +119,9 @@
             var _this = this,
                 options = _this.options,
                 resultEl;
-            if (typeof options.el == "object"){ // 支持传入DOM对象
+            if (typeof options.el === "object"){ // 支持传入DOM对象
                 resultEl = options.el;
-            } else if (typeof options.el == "string"){
+            } else if (typeof options.el === "string"){
                 resultEl = document.querySelector(options.el);
             }
             return resultEl;
@@ -102,31 +133,34 @@
                 parentNode = _this.getParentNode();
 
             // 添加最外层的class样式
-            options.customClass && (parentNode.className = parentNode.className + options.customClass);
+            // https://caniuse.com/#search=classList
+            options.customClass && parentNode.classList.add(options.customClass);
             options.boxClass = _this.getBoxClass();
-            boxHtml += '<div class="steps {{boxClass}}">'.replace("{{boxClass}}", options.boxClass);
+            boxHtml = boxHtml + '<div class="steps ' + options.boxClass + '">';
             
             var stepContainer = "";
             options.data.forEach(function(currentValue, index, array){
                 (currentValue[options.props.status] || currentValue[options.props.status] == 0) && (options.dataSetStatus = true);
-                stepContainer += '<div class="step {{stepClass}}" style="{{stepStyle}}">{{stepHtml}}</div>'.replace("{{stepClass}}", options.defaultClass + " " + 
-                    (currentValue[options.props.status] 
+
+                // step的完成class
+                var stepClass = currentValue[options.props.status] 
+                    ? options.finishClass 
+                    : ((!options.dataSetStatus && index <= options.active) 
                         ? options.finishClass 
-                        : ((!options.dataSetStatus && index <= options.active) 
-                            ? options.finishClass 
-                            : "")));;
-                stepContainer = stepContainer.replace("{{stepStyle}}", _this.getStepStyle(index).join(""));
+                        : "");
+                stepContainer = stepContainer + '<div class="step ' + options.defaultClass + ' ' + stepClass + '" style="' + _this.getStepStyle(index).join("") + '">{{stepHtml}}</div>';
 
                 // icon 处的布局
                 var stepIconClass = "",
                     stepIconInnerClass = "",
-                    stepIconInnerText = "";
-                if (options.iconType.toLowerCase() == "number") {
+                    stepIconInnerText = "",
+                    iconType = options.iconType.toLowerCase();
+                if (iconType == "number") {
                     stepIconInnerClass = "step-icon-number";
                     stepIconInnerText = index + 1;
-                } else if (options.iconType.toLowerCase() == "bullets"){
+                } else if (iconType == "bullets"){
                     stepIconInnerClass = "step-icon-bullets";
-                } else if (options.iconType.toLowerCase() == "custom") {
+                } else if (iconType == "custom") {
                     stepIconClass = "step-icon-custom-box";
                     stepIconInnerClass = "step-icon-custom";
                     stepIconInnerText = currentValue[options.props.icon] 
@@ -134,25 +168,22 @@
                         : index + 1;
                 }
 
-                var stepHtml;
-                var stepLineBox = '<div class="step-line-box" style="{{flexStyle}}order:' + options.dataOrder.indexOf("line") + '"><div class="step-line {{finishLineClass}}"></div><div class="step-icon ' + stepIconClass + '"><div class="' + stepIconInnerClass + '">' + stepIconInnerText + '</div></div></div>';
-                var stepTitle = '<div class="step-title" style="{{flexStyle}}order:' + options.dataOrder.indexOf("title") + '">' + currentValue[options.props.title] + '</div>';
-                var stepDesc = '<div class="step-description" style="{{flexStyle}}order:' + options.dataOrder.indexOf("description") + '">' + currentValue[options.props.description] + '</div>';
-
+                var stepHtml, lineStyle = '', titleStyle = '', descStyle = '',
+                    lineIndex = options.dataOrder.indexOf("line"),
+                    titleIndex = options.dataOrder.indexOf("title"),
+                    descIndex = options.dataOrder.indexOf("description");
                 if(options.direction.toLowerCase() == "vertical" && options.dataWidth.length > 0){
-                    stepLineBox = stepLineBox.replace("{{flexStyle}}", "flex: 0 0 " + options.dataWidth[options.dataOrder.indexOf("line")] + ";");
-                    stepTitle = stepTitle.replace("{{flexStyle}}", "flex: 0 0 " + options.dataWidth[options.dataOrder.indexOf("title")] + ";");
-                    stepDesc = stepDesc.replace("{{flexStyle}}", "flex: 0 0 " + options.dataWidth[options.dataOrder.indexOf("description")] + ";");
-                }else{
-                    stepLineBox = stepLineBox.replace("{{flexStyle}}", '');
-                    stepTitle = stepTitle.replace("{{flexStyle}}", '');
-                    stepDesc = stepDesc.replace("{{flexStyle}}", '');
+                    lineStyle = "flex: 0 0 " + options.dataWidth[lineIndex] + ";";
+                    titleStyle = "flex: 0 0 " + options.dataWidth[titleIndex] + ";";
+                    descStyle = "flex: 0 0 " + options.dataWidth[descIndex] + ";";
                 }
                 
+                var stepLineBox = '<div class="step-line-box" style="' + lineStyle + 'order:' + lineIndex + '"><div class="step-line {{finishLineClass}}"></div><div class="step-icon ' + stepIconClass + '"><div class="' + stepIconInnerClass + '">' + stepIconInnerText + '</div></div></div>';
+                var stepTitle = '<div class="step-title" style="' + titleStyle + 'order:' + titleIndex + '">' + currentValue[options.props.title] + '</div>';
+                var stepDesc = '<div class="step-description" style="' + descStyle + 'order:' + descIndex + '">' + currentValue[options.props.description] + '</div>';
+
                 stepHtml = stepLineBox + stepTitle + stepDesc;
-                if(currentValue[options.props.customHtml]){
-                    stepHtml += currentValue[options.props.customHtml];
-                }
+                currentValue[options.props.customHtml] && (stepHtml += currentValue[options.props.customHtml]);
             
                 stepContainer = stepContainer.replace("{{stepHtml}}", stepHtml);
             });

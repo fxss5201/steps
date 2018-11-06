@@ -28,6 +28,10 @@
 .steps-horizontal .step {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+}
+.steps-horizontal.steps-center .step {
+    align-items: center;
 }
 .steps-vertical .step {
     display: flex;
