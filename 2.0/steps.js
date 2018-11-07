@@ -133,8 +133,7 @@
                 parentNode = _this.getParentNode();
 
             // 添加最外层的class样式
-            // https://caniuse.com/#search=classList
-            options.customClass && parentNode.classList.add(options.customClass);
+            options.customClass && (parentNode.className = parentNode.className + options.customClass);
             options.boxClass = _this.getBoxClass();
             boxHtml = boxHtml + '<div class="steps ' + options.boxClass + '">';
             
