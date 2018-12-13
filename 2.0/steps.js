@@ -73,7 +73,7 @@
                     customHtml: "customHtml"
                 },
                 dataOrder: ["line", "title", "description"], // 设置显示顺序
-                dataWidth: [], // 此属性仅在direction="vertical"时有效，按照 dataOrder 的显示顺序设置每个的默认宽度，如果未设置，则默认宽度，如果纵向显示左侧内容长度不一致，建议强制设置此属性
+                dataWidth: [], // 此属性仅在direction="vertical"时有效，按照 dataOrder 的显示顺序设置每个的默认宽度，如果未设置，则默认宽度，如果纵向显示左侧内容长度不一致，建议强制设置此属性，并且此属性的值建议使用flex的值，例如'1 0 100px'
                 space: null,
                 direction: "horizontal",
                 iconType: "number", // 支持"number"、"bullets"、"custom"
@@ -172,9 +172,9 @@
                     titleIndex = options.dataOrder.indexOf("title"),
                     descIndex = options.dataOrder.indexOf("description");
                 if(options.direction.toLowerCase() == "vertical" && options.dataWidth.length > 0){
-                    lineStyle = "flex: 0 0 " + options.dataWidth[lineIndex] + ";";
-                    titleStyle = "flex: 0 0 " + options.dataWidth[titleIndex] + ";";
-                    descStyle = "flex: 0 0 " + options.dataWidth[descIndex] + ";";
+                    lineStyle = "flex: " + options.dataWidth[lineIndex] + ";";
+                    titleStyle = "flex: " + options.dataWidth[titleIndex] + ";";
+                    descStyle = "flex: " + options.dataWidth[descIndex] + ";";
                 }
                 
                 var stepLineBox = '<div class="step-line-box" style="' + lineStyle + 'order:' + lineIndex + '"><div class="step-line {{finishLineClass}}"></div><div class="step-icon ' + stepIconClass + '"><div class="' + stepIconInnerClass + '">' + stepIconInnerText + '</div></div></div>';
