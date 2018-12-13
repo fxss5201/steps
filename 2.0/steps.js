@@ -172,9 +172,9 @@
                     titleIndex = options.dataOrder.indexOf("title"),
                     descIndex = options.dataOrder.indexOf("description");
                 if(options.direction.toLowerCase() == "vertical" && options.dataWidth.length > 0){
-                    lineStyle = "flex: " + options.dataWidth[lineIndex] + ";";
-                    titleStyle = "flex: " + options.dataWidth[titleIndex] + ";";
-                    descStyle = "flex: " + options.dataWidth[descIndex] + ";";
+                    lineStyle = "flex: " + (options.dataWidth[lineIndex] ? options.dataWidth[lineIndex] : "none") + ";";
+                    titleStyle = "flex: " + (options.dataWidth[titleIndex] ? options.dataWidth[titleIndex] : "none") + ";";
+                    descStyle = "flex: " + (options.dataWidth[descIndex] ? options.dataWidth[descIndex] : "none") + ";";
                 }
                 
                 var stepLineBox = '<div class="step-line-box" style="' + lineStyle + 'order:' + lineIndex + '"><div class="step-line {{finishLineClass}}"></div><div class="step-icon ' + stepIconClass + '"><div class="' + stepIconInnerClass + '">' + stepIconInnerText + '</div></div></div>';
