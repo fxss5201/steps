@@ -1,6 +1,8 @@
 # steps #
 
-[![](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/fxss5201/steps)
+
+![](https://img.shields.io/badge/language-javascript-green.svg)
+![](https://img.shields.io/badge/license-MIT-blue.svg)
 
 先看一下目录结构：
 ![steps目录](/TOC.png)
